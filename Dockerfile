@@ -1,5 +1,5 @@
 # Use the official Node.js image as the base
-FROM node:20-alpine
+FROM node:20
 
 # Set the working directory in the container
 WORKDIR /usr/src/app
@@ -12,6 +12,9 @@ RUN npm install
 
 # Copy the rest of the application files to the container
 COPY . .
+
+ENV BOT_TOKEN=${BOT_TOKEN}
+ENV GUILD_ID=${GUILD_ID}
 
 # Start the bot
 CMD ["node", "./src/index.js"]
