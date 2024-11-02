@@ -1,0 +1,9 @@
+services:
+  harri-bot:
+    build: .
+    container_name: harri-bot
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - ./:/usr/src/app
