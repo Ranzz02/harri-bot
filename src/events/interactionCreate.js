@@ -7,16 +7,15 @@ export default async (client, interaction) => {
     const command = client.commands.get(interaction.commandName);
     if (!command) return;
 
-    if (isWorkHours()) {
-        interaction.reply("Currently at work");
-        client.user.setPresence({ 
-            activities: [{name: "At work", type: ActivityType.Watching}],
-            status: "dnd"
-        })
-        return
-    }
-
     try {
+        // Update status
+        if (isWorkHours()) {
+            await client.user.setPresence({ 
+                activities: [{name: "At work", type: ActivityType.Watching}],
+                status: "dnd"
+            })
+        }
+
         await command.execute(interaction);
     } catch (error) {
         // Check if interaction has already been deferred

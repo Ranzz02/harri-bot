@@ -12,37 +12,21 @@ export async function play(interaction, source, volume = 1) {
     const voiceChannel = member.voice.channel;
 
     if (!voiceChannel) {
-        return interaction.reply("En tiedä mihin liityä!");
+        return interaction.reply({content: "En tiedä mihin liityä!", ephemeral: true });
     }
 
     const audioPath = path.resolve(__dirname + "/sources", source);
     console.log(audioPath)
 
-    const connection = joinVoiceChannel({
-        channelId: voiceChannel.id,
-        guildId: interaction.guild.id,
-        adapterCreator: interaction.guild.voiceAdapterCreator,
-    });
-
-    const player = createAudioPlayer();
-
-    player.on(AudioPlayerStatus.Playing, () => {
-        console.log('Audio is playing!');
-    });
-
-    player.on(AudioPlayerStatus.Idle, () => {
-        console.log('Audio finished playing.');
-        connection.destroy();
-    });
-
-    player.on('error', (error) => {
-        console.error('Error in audio player:', error);
-        interaction.followUp("An error occurred while playing the audio.");
-        connection.destroy(); // Clean up connection on error
-    });
-
-    // Loop to play the audio the specified number of times
     try {
+        const connection = joinVoiceChannel({
+            channelId: voiceChannel.id,
+            guildId: interaction.guild.id,
+            adapterCreator: interaction.guild.voiceAdapterCreator,
+        });
+
+        const player = createAudioPlayer();
+
         const resource = createAudioResource(audioPath, { inlineVolume: true });
         resource.volume.setVolume(volume);
 
@@ -53,6 +37,8 @@ export async function play(interaction, source, volume = 1) {
             player.once(AudioPlayerStatus.Idle, resolve);
             player.once('error', reject);
         });
+
+        connection.destroy();
     } catch (error) {
         console.error(`Error while playing sound ${source}:`, error);
         await interaction.followUp('An error occurred while trying to play the sound.');
