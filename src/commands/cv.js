@@ -11,7 +11,7 @@ const commandsDir = path.join(__dirname); // This points to the same folder as t
 
 export default {
     name: 'cv',
-    description: 'Minun cv.',
+    description: 'Näytä Harrin CV ja kaikki komennot.',
     async execute(interaction) {
         await interaction.deferReply();
 
@@ -29,6 +29,15 @@ export default {
 
         // Build the command list
         const commandList = commands.map(cmd => `- **/${cmd.name}**: ${cmd.description}`).join('\n');
-        await interaction.editReply(`Minä osaan:\n${commandList}`);
+
+        // Harri's CV information
+        const harriCV = `**Harrin CV**\n` +
+                        `**Työkokemus**:\n` +
+                        `- **Hesburger**: Työskentelee klo 9-17\n\n` +
+                        `**Vapaa-aika**:\n` +
+                        `- **Yap Kriitikko**\n\n` +
+                        `**Komennot**:\n${commandList}`;
+
+        await interaction.editReply(harriCV);
     },
 };

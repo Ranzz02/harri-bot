@@ -5,6 +5,7 @@ export default {
     description: 'Huono lisäys',
     async execute(interaction) {
         await interaction.deferReply();
+
         try {
             play(interaction,"huono_lisäys.ogg", 1.5);
             await interaction.deleteReply();
