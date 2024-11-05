@@ -7,12 +7,12 @@ import { ActivityType } from 'discord.js';
 dotenv.config();
 
 export function startCronJob(Client) {
-    const workStatusJob = new CronJob('0 9 * * 1-5', () => {
+    const workStatusJob = new CronJob('*/15 9-17 * * 1-5', () => {
         setBotStatus(Client, 'Töissä', ActivityType.Custom, 'dnd');
     }, null, true, "Europe/Helsinki");
 
     // Cron job for "available" status (Online) - runs at 5:00 PM on weekdays
-    const availableStatusJob = new CronJob('0 17 * * 1-5', () => {
+    const availableStatusJob = new CronJob('*/15 17-23 * * 1-5', () => {
         setBotStatus(Client, "Arvioin teitä", ActivityType.Custom, 'online');
     }, null, true, "Europe/Helsinki");
 
