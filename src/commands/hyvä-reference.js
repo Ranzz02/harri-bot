@@ -7,12 +7,6 @@ export default {
     async execute(interaction) {
         await interaction.deferReply();
         try {
-            if (isWorkHours()) {
-                await interaction.editReply("Currently at work");
-                play(interaction, "harri-töissä.ogg", 1);
-                return
-            }
-
             await interaction.deleteReply();
             play(interaction, "reference.ogg", 1);
         } catch (error) {

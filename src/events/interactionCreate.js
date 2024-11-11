@@ -8,12 +8,21 @@ export default async (client, interaction) => {
     if (!command) return;
 
     try {
+        if (command.name === "cv") {
+            await command.execute(interaction);
+            return
+        }
+
         // Update status
         if (isWorkHours()) {
             await client.user.setPresence({ 
-                activities: [{name: "At work", type: ActivityType.Watching}],
+                activities: [{name: "At work", type: ActivityType.Custom}],
                 status: "dnd"
             })
+
+            await interaction.editReply("Currently at work");
+            play(interaction, "harri-töissä.ogg", 1);
+            return
         }
 
         await command.execute(interaction);
