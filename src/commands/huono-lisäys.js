@@ -1,5 +1,4 @@
 import { play } from '../audio/audioPlayer.js';
-import { isWorkHours } from "../utils/workHour.js";
 
 export default {
     name: 'huono-lisäys',
